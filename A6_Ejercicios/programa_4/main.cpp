@@ -1,9 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <iostream>
-// para validar si la edad es un número
-#include <limits>
+#include <stdexcept> // Necesario para std::invalid_argument
+#include "colors.h"
 
 using namespace std;
 
@@ -16,7 +15,7 @@ class Mascota {
 
     public:
         // Constructor por defecto
-        Mascota() {}
+        Mascota() : edad(0) {}
 
         // Métodos set para asignar valores a los atributos privados
         void setNombre(string nombre) {
@@ -27,39 +26,37 @@ class Mascota {
             this->especie = especie;
         }
 
-        void setEdad(int edad) {
-            if(edad < 0) {
-                cout << "La edad no puede ser negativa" << endl;
-                return;
-
+        void setEdad(const std::string& input) {
+            // Validar si la entrada es un número
+            for (char const &c : input) {
+                if (!std::isdigit(c)) {
+                    throw std::invalid_argument("Error: La edad ingresada no es un número válido.");
+                }
             }
-            if() {
-                
-            }
-            this->edad = edad;
+            // Convertir la entrada a un número entero y asignar a la variable edad
+            edad = std::stoi(input);
         }
 
         // Método para presentar la información de la mascota
         void presentar() {
-            cout << "Nombre: " << nombre << endl;
+            cout << GRAY << "Nombre: " << nombre << endl;
             cout << "Especie: " << especie << endl;
             cout << "Edad: " << edad << " años" << endl;
-            cout << "\n";
+            cout << "\n" << RESET;
         }
 };
 
 int main() {
     vector<Mascota> mascotas;
-    string nombre, especie;
-    int edad, cantidad;
+    string nombre, especie, edadStr;
+    int cantidad;
 
-    // Crear un objeto de la clase Mascota
-    Mascota mascota;
-
-    cout << "Cuantas mascotas quiere agregar? ";
+    cout << GRAY << "¿Cuántas mascotas quiere agregar?: " << RESET;
     cin >> cantidad;
 
-    for(int i; i < cantidad; i++) {
+    for(int i = 0; i < cantidad; i++) {
+        Mascota mascota;
+
         // Ingresar los datos de la mascota
         cout << "Ingrese el nombre de la mascota: ";
         cin >> nombre;
@@ -69,18 +66,28 @@ int main() {
         cin >> especie;
         mascota.setEspecie(especie);
 
-        cout << "Ingrese la edad de la mascota: ";
-        cin >> edad;
-        mascota.setEdad(edad);
+        bool edadValida = false;
+        while (!edadValida) {
+            cout << "Ingrese la edad de la mascota: ";
+            cin >> edadStr;
+            try {
+                mascota.setEdad(edadStr);
+                edadValida = true; // La edad es válida, salimos del bucle
+            } catch (const std::invalid_argument& e) {
+                cout << "\n";
+                cout << RED <<  e.what() << " Por favor, intente de nuevo." << RESET << endl;
+                cout << "\n";
+            }
+        }
         cout << "\n";
 
         // Guardar la mascota en el vector
         mascotas.push_back(mascota);
     }
 
-    // Llamar al método presentar() para mostrar la información de la mascota
-    for (int i; i < cantidad; i++) {
-        mascota.presentar();
+    // Llamar al método presentar() para mostrar la información de las mascotas
+    for (int i = 0; i < cantidad; i++) {
+        mascotas[i].presentar();
     }
 
     return 0;
