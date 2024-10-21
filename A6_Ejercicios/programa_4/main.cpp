@@ -1,8 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <stdexcept> // Necesario para std::invalid_argument
-#include "colors.h"
+
+// Necesario para std::invalid_argument
+// LIBRERIA PARA COLORES
+#include <stdexcept> 
+#include "colors.h" 
 
 using namespace std;
 

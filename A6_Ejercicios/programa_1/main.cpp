@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <stdexcept>
 
 using namespace std;
 
@@ -57,8 +56,3 @@ int main() {
     return 0;
 }
 
-// Crear un objeto de la clase Mascota
-
-// Pedir al usuario que ingrese los datos de la mascota
-
-// Llamar al método presentar() para mostrar la información

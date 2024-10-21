@@ -12,8 +12,17 @@ class Mascota {
         int edad;
 
     public:
-        // Constructor por defecto
-        Mascota() {}
+        // Constructor 
+        Mascota(
+            string nombre = "Sin nombre", 
+            string especie = "Sin especie", 
+            int edad = 0) {
+                
+            this->nombre = nombre;
+            this->especie = especie;
+            this->edad = edad;
+
+        }
 
         // Métodos set para asignar valores a los atributos privados
         void setNombre(string nombre) {
